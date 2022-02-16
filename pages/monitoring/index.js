@@ -1,30 +1,29 @@
 
 import { useEffect, useState } from 'react';
 import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,ReferenceLine} from 'recharts';
-import Ably from "ably/promises";
+import Parse from 'parse/dist/parse.min.js';
 
 export default function Monitoring({t}) {
-
+    
   const [data,setData]=useState([]);
 	const [num,setNum]=useState(1);
 	const[ref,setRef]=useState(false);
 	const [max,setMax] =useState(6);
-			const [x,setX]=useState(false);
+	const [x,setX]=useState(false);
 	const [loading,setLoading]=useState(true)
 
+async function fetchValue() {
+    const query = new Parse.Query('value');
+	query.equalTo('objectId', 'ypTk3FAgI1');
+    const Value = await query.first();
+     setNum(Value.get("num"))
+  }
 useEffect(()=>{
-	var ably = new Ably.Realtime('CltMUg.CCbWVw:kpFlHbCfE3EdZUKGrqsBxPqxfgXV8quTx7yhzpkis0s');
-var channel = ably.channels.get('test');
-channel.subscribe('greeting', function(message) {
-  setNum(message.data)
-  });
-
   if(t!=undefined) setData(t);
-
-
 },[])
 useEffect(()=>{
 setTimeout(()=>{
+	fetchValue()
 	if(data.length)	setDate()
 	setX(!x)}
 ,10000)
@@ -62,8 +61,8 @@ const setDate=()=>{
 					<CartesianGrid strokeDasharray="3 3" />
 					<XAxis tick={{fontSize:11}} dataKey={"time"} tickFormatter={(e)=> `${new Date(e).getHours()}:${new Date(e).getMinutes()}`}/>
 					<YAxis  width={80} tick={{fontSize:11}} tickFormatter={(e)=> e+' Mbit/s'}/>
-					<Tooltip labelStyle={{fontSize:12}} itemStyle={{fontSize:12,color:"blue"}} formatter={(value, name, props) => [`${value} Mbit/s`]} labelFormatter={(value) =>new Date(value)} />
-          <ReferenceLine y={max} label={`Max ${max} Mb/s`} stroke="red" strokeDasharray="3 3" />
+					<Tooltip labelStyle={{fontSize:12}} itemStyle={{fontSize:12,color:"blue"}} formatter={(value, name, props) => [`${value.toFixed(2)} Mbit/s`]} labelFormatter={(value) =>new Date(value)} />
+          <ReferenceLine y={max} label={`Max ${max.toFixed(2)} Mb/s`} stroke="red" strokeDasharray="3 3" />
 					<Area type="monotone" dataKey="Bitrate" stroke={"rgb(176, 222, 9)"} fill="rgb(176, 222, 9)" />
 				</AreaChart>
        
