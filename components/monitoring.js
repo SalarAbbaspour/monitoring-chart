@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,ReferenceLine} from 'recharts';
 import Pusher from 'pusher-js'
 
-export default function Monitoring({t}) {
+export default function MonitoringComponent({t}) {
     const pusher = new Pusher("ac3fe16cdb223e8769b4", {
         cluster: "eu",
       });
@@ -12,7 +12,6 @@ export default function Monitoring({t}) {
 	const [num,setNum]=useState(1);
 	const[ref,setRef]=useState(false);
 	const [max,setMax] =useState(6);
-			const [x,setX]=useState(false);
 	const [loading,setLoading]=useState(true)
     channel.bind("my-event", (data) => {
         setNum(data.value)
@@ -21,25 +20,20 @@ useEffect(()=>{
   if(t!=undefined) setData(t);
  
 },[])
-useEffect(()=>{
-setTimeout(()=>{
-	fetch('http://localhost:5000/api/getnum')
-  	.then(response => response.json())
-  	.then(res => {
-	setNum(res.num)
-	if(data.length)	setDate()
-	setX(!x)})
-},10000)
-},[x])
 const setDate=()=>{
-	let temp = data;
+    let temp = data;
     temp.shift();
     temp.push({Bitrate:6*num,time:new Date().toUTCString()});
     if(6*num>max){
         setMax(6*num);
     }
     setData(temp);
+    setRef(!ref);
 }
+	useEffect(()=>{
+	if(data.length)	setTimeout(setDate(),10000);
+	},[data,num,t]);
+
 	return(
 		<div>
 			<div style={{
@@ -77,9 +71,4 @@ const setDate=()=>{
   )
 }
 
-export async function getServerSideProps({params,req,res,query,preview,previewData,resolvedUrl,locale,locales,defaultLocale}) {
-  console.log('Logging : '+res);
-  const data = await fetch('http://localhost:5000/api/getlist');
-  const list = await data.json();
-  return { props: { t:list.data } }
-}
+
