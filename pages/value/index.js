@@ -22,7 +22,7 @@ const handle = props => {
 const Value =()=>{
     const [num, setNum] = useState(1)
     const submit=(value)=>{
-        fetch("/api/value",{method:'POST',headers: {
+        fetch("https://monitoring-server.vercel.app/api/value",{method:'POST',headers: {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify({value})})
