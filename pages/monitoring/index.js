@@ -1,29 +1,23 @@
 
 import { useEffect, useState } from 'react';
 import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,ReferenceLine} from 'recharts';
-import Pusher from 'pusher-js'
 
 export default function Monitoring({t}) {
-    const pusher = new Pusher("ac3fe16cdb223e8769b4", {
-        cluster: "eu",
-      });
-    const channel = pusher.subscribe("my-channel");
+
   const [data,setData]=useState([]);
 	const [num,setNum]=useState(1);
 	const[ref,setRef]=useState(false);
 	const [max,setMax] =useState(6);
 			const [x,setX]=useState(false);
 	const [loading,setLoading]=useState(true)
-    channel.bind("my-event", (data) => {
-        setNum(data.value)
-    });
+
 useEffect(()=>{
   if(t!=undefined) setData(t);
  
 },[])
 useEffect(()=>{
 setTimeout(()=>{
-	fetch('http://localhost:5000/api/getnum')
+	fetch('https://monitoring-server.vercel.app/api/getnum')
   	.then(response => response.json())
   	.then(res => {
 	setNum(res.num)
@@ -79,7 +73,7 @@ const setDate=()=>{
 
 export async function getServerSideProps({params,req,res,query,preview,previewData,resolvedUrl,locale,locales,defaultLocale}) {
   console.log('Logging : '+res);
-  const data = await fetch('http://localhost:5000/api/getlist');
+  const data = await fetch('https://monitoring-server.vercel.app/api/getlist');
   const list = await data.json();
   return { props: { t:list.data } }
 }

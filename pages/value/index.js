@@ -23,7 +23,7 @@ const handle = props => {
 
 export default function Value({t}) {
     const submit=(value)=>{
-        fetch("http://localhost:5000/api/value",{method:'POST',headers: {
+        fetch("https://monitoring-server.vercel.app/api/value",{method:'POST',headers: {
             'Content-Type': 'application/json'
           },
           body:JSON.stringify({value})})
@@ -45,7 +45,7 @@ useEffect(()=>{
 },[])
 useEffect(()=>{
 setTimeout(()=>{
-	fetch('http://localhost:5000/api/getnum')
+	fetch('https://monitoring-server.vercel.app/api/getnum')
   	.then(response => response.json())
   	.then(res => {
 	setNumX(res.num)
@@ -113,7 +113,7 @@ const setDate=()=>{
 
 export async function getServerSideProps({params,req,res,query,preview,previewData,resolvedUrl,locale,locales,defaultLocale}) {
   console.log('Logging : '+res);
-  const data = await fetch('http://localhost:5000/api/getlist');
+  const data = await fetch('https://monitoring-server.vercel.app/api/getlist');
   const list = await data.json();
   return { props: { t:list.data } }
 }
