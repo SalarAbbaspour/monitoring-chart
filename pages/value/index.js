@@ -41,12 +41,14 @@ export default function Value({t}) {
 	const [loading,setLoading]=useState(true)
    
 useEffect(()=>{
-  if(t!=undefined) setData(t);
-var ably = new Ably.Realtime('CltMUg.CCbWVw:kpFlHbCfE3EdZUKGrqsBxPqxfgXV8quTx7yhzpkis0s');
+	var ably = new Ably.Realtime('CltMUg.CCbWVw:kpFlHbCfE3EdZUKGrqsBxPqxfgXV8quTx7yhzpkis0s');
 var channel = ably.channels.get('test');
 channel.subscribe('greeting', function(message) {
   setNumX(message.data)
-});
+  });
+  if(t!=undefined) setData(t);
+
+
 
 },[])
 useEffect(()=>{
