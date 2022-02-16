@@ -4,7 +4,7 @@ import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,
 import Pusher from 'pusher-js'
 
 export default function Monitoring({t}) {
-    const pusher = new Pusher("ebbfc5d80c211fb6817b", {
+    const pusher = new Pusher("ac3fe16cdb223e8769b4", {
         cluster: "eu",
       });
     const channel = pusher.subscribe("my-channel");
