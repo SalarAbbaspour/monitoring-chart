@@ -73,7 +73,7 @@ const setDate=()=>{
 
 export async function getServerSideProps({params,req,res,query,preview,previewData,resolvedUrl,locale,locales,defaultLocale}) {
   console.log('Logging : '+res);
-  const data = await fetch('https://monitoring-server.vercel.app//api/getlist');
+  const data = await fetch('https://monitoring-server.vercel.app/api/getlist');
   const list = await data.json();
   return { props: { t:list.data } }
 }
