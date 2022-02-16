@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,ReferenceLine} from 'recharts';
+import Ably from "ably/promises";
 
 export default function Monitoring({t}) {
 
@@ -13,17 +14,18 @@ export default function Monitoring({t}) {
 
 useEffect(()=>{
   if(t!=undefined) setData(t);
- 
+var ably = new Ably.Realtime('CltMUg.CCbWVw:kpFlHbCfE3EdZUKGrqsBxPqxfgXV8quTx7yhzpkis0s');
+var channel = ably.channels.get('test');
+channel.subscribe('greeting', function(message) {
+  setNum(message.data)
+});
+
 },[])
 useEffect(()=>{
 setTimeout(()=>{
-	fetch('https://monitoring-server.vercel.app/api/getnum')
-  	.then(response => response.json())
-  	.then(res => {
-	setNum(res.num)
 	if(data.length)	setDate()
-	setX(!x)})
-},10000)
+	setX(!x)}
+,10000)
 },[x])
 const setDate=()=>{
 	let temp = data;
