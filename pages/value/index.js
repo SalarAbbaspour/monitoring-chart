@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,ReferenceLine} from 'recharts';
+import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,ReferenceLine,Brush} from 'recharts';
 import Slider,{SliderTooltip} from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Parse from 'parse/dist/parse.min.js';
@@ -113,6 +113,8 @@ async function setDate(res){
 					<Tooltip labelStyle={{fontSize:12}} itemStyle={{fontSize:12,color:"blue"}} formatter={(value, name, props) => [`${value.toFixed(2)} Mbit/s`]} labelFormatter={(value) =>new Date(value)} />
           <ReferenceLine y={max} label={`Max ${max.toFixed(2)} Mb/s`} stroke="red" strokeDasharray="3 3" />
 					<Area type="monotone" dataKey="Bitrate" stroke={"rgb(176, 222, 9)"} fill="rgb(176, 222, 9)" />
+					<Brush />
+
 				</AreaChart>
        
         </ResponsiveContainer>
