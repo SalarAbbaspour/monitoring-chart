@@ -4,7 +4,8 @@ import Slider,{SliderTooltip} from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Parse from 'parse/dist/parse.min.js';
 import ReactiveButton from 'reactive-button';
- 
+import Router from 'next/router'
+
 const {Handle} =Slider;
 const handle = props => {
 	const { value, dragging, index, ...restProps } = props;
@@ -62,6 +63,16 @@ export default function Value({t}) {
      setNumX(Value.get("num"))
 	 return Value.get("num")
   }
+  useEffect(()=>{
+	const auth = localStorage.getItem("Role")
+	if (!auth){
+		Router.push("/login")
+	}
+	if(auth!=="admin"){
+		Router.push("/")
+	}
+	setLoading(false)
+},[])
 useEffect(()=>{
   if(t!=undefined) setData(t);
 },[])

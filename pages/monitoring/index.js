@@ -1,10 +1,10 @@
 
 import { useEffect, useState } from 'react';
 import { AreaChart, CartesianGrid ,XAxis,Tooltip,Area,YAxis,ResponsiveContainer,ReferenceLine,Brush} from 'recharts';
-import Parse from 'parse/dist/parse.min.js';
+import Parse from 'parse/dist/parse.min.js';  
+import Router from 'next/router'
 
 export default function Monitoring({t}) {
-    
   const [data,setData]=useState([]);
 	const [num,setNum]=useState(1);
 	const[ref,setRef]=useState(false);
@@ -18,6 +18,13 @@ async function fetchValue() {
     const Value = await query.first();
      setNum(Value.get("num"))
   }
+  useEffect(()=>{
+	const auth = localStorage.getItem("Role")
+	if (!auth){
+		Router.push("/login")
+	}
+	setLoading(false)
+},[])
 useEffect(()=>{
   if(t!=undefined) setData(t);
 },[])
@@ -77,7 +84,6 @@ const setDate=()=>{
 }
 
 export async function getServerSideProps({params,req,res,query,preview,previewData,resolvedUrl,locale,locales,defaultLocale}) {
-  console.log('Logging : '+res);
   const data = await fetch('https://monitoring-server.vercel.app/api/getlist');
   const list = await data.json();
   return { props: { t:list.data } }
