@@ -54,7 +54,7 @@ export default function Value({t}) {
 		const [numX,setNumX]=useState(1);
 
 	const[ref,setRef]=useState(false);
-	const [max,setMax] =useState(6);
+	const [max,setMax] =useState(4);
 	const [loading,setLoading]=useState(true)
    async function fetchValue() {
     const query = new Parse.Query('value');
@@ -89,9 +89,9 @@ setTimeout(()=>{
 async function setDate(res){
 	let temp = data;
     temp.shift();
-    await temp.push({Bitrate:6*numX,time:new Date().toUTCString()});
-    if(6*numX>max){
-        setMax(6*numX);
+    await temp.push({Bitrate:4*numX,time:new Date().toUTCString()});
+    if(4*numX>max){
+        setMax(4*numX);
     }
     setData(temp);
 	return res

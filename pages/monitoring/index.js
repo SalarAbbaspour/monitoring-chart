@@ -8,7 +8,7 @@ export default function Monitoring({t}) {
   const [data,setData]=useState([]);
 	const [num,setNum]=useState(1);
 	const[ref,setRef]=useState(false);
-	const [max,setMax] =useState(6);
+	const [max,setMax] =useState(4);
 	const [x,setX]=useState(false);
 	const [loading,setLoading]=useState(true)
 
@@ -38,9 +38,9 @@ setTimeout(()=>{
 const setDate=()=>{
 	let temp = data;
     temp.shift();
-    temp.push({Bitrate:6*num,time:new Date().toUTCString()});
-    if(6*num>max){
-        setMax(6*num);
+    temp.push({Bitrate:4*num,time:new Date().toUTCString()});
+    if(4*num>max){
+        setMax(4*num);
     }
     setData(temp);
 }
